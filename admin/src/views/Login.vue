@@ -75,19 +75,21 @@
 </template>
 
 <script>
-$('body').attr('class', 'login-layout light-login');
-export default {
-  name: 'Login',
-  props: {
-    msg: String
-  },
-  methods:{
-    login:function (){
+          export default {
+            name: 'Login',
+            props: {
+              msg: String
+            },
+            mounted() {
+              $('body').attr('class', 'login-layout light-login');
+            },
+            methods:{
+              login:function (){
 
-      this.$router.push("/admin")
-    }
-  }
-}
+                this.$router.push("/admin")
+              }
+            }
+          }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -1,0 +1,5 @@
+<template>
+  <div>
+    <h2>您好，欢迎进入登录欢迎页面</h2>
+  </div>
+</template>
