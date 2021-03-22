@@ -8,6 +8,7 @@
         <module>system</module>
         <module>zuul</module>
         <module>server</module>
+        <module>business</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
