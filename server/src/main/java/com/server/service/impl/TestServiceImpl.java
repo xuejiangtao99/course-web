@@ -1,7 +1,7 @@
 package com.server.service.impl;
 
 import com.server.domain.Test;
-import com.server.domain.TestExample;
+import com.server.example.TestExample;
 import com.server.mapper.TestMapper;
 import com.server.service.TestService;
 import org.springframework.stereotype.Service;

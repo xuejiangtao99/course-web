@@ -1,7 +1,7 @@
 package com.server.mapper;
 
 import com.server.domain.Test;
-import com.server.domain.TestExample;
+import com.server.example.TestExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
