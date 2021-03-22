@@ -22,7 +22,7 @@
                   <div class="widget-main">
                     <h4 class="header blue lighter bigger">
                       <i class="ace-icon fa fa-coffee green"></i>
-                      控台登录
+                      控制台登录
                     </h4>
 
                     <div class="space-6"></div>
