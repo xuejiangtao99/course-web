@@ -1,4 +1,4 @@
-package com.system;
+package com.system.config;
 
 
 import org.mybatis.spring.annotation.MapperScan;
@@ -8,11 +8,14 @@ import org.springframework.boot.SpringApplication;
 //import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
 @SpringBootApplication
 @EnableEurekaClient
-@MapperScan("com.system.mapper")
+@ComponentScan("com.server")
+@ComponentScan("com.system")
+@MapperScan("com.server.mapper")
 //@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class SystemApplication {
 

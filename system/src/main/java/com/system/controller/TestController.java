@@ -1,7 +1,7 @@
 package com.system.controller;
 
-import com.system.domain.Test;
-import com.system.service.TestService;
+import com.server.domain.Test;
+import com.server.service.TestService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
