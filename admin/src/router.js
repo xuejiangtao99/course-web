@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Login from './views/Login';
 import Admin from './views/Admin';
 import Welcome from './views/admin/Welcome'
+import Chapter from './views/admin/Chapter'
 
 
 Vue.use(VueRouter)
@@ -24,6 +25,9 @@ export default new VueRouter({
         children:[{
             path:'welcome',
             component:Welcome
+        },{
+            path:"chapter",
+            component:Chapter
         }]
     }]
 })
