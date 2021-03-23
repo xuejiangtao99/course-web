@@ -6,6 +6,7 @@ import com.server.dto.ChapterDto;
 import com.server.dto.PageDto;
 import com.server.dto.ResponseDto;
 import com.server.service.ChapterService;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,11 +32,23 @@ public class ChapterController {
         return new ResponseDto(true,200,null,pageDto);
     }
 
+    /**
+     * 保存大章列表 新增/修改
+     * @param chapterDto
+     * @return
+     */
     @RequestMapping("/save")
     public ResponseDto save(@RequestBody ChapterDto chapterDto){
 
         chapterService.save(chapterDto);
 
         return new ResponseDto(true,200,null,chapterDto);
+    }
+
+    @RequestMapping("/deleteById/{id}")
+    public ResponseDto deleteById(@PathVariable("id") String id){
+
+            chapterService.deleteById(id);
+        return new ResponseDto(true,200,null,null);
     }
 }

@@ -32,7 +32,7 @@
           <button class="btn btn-xs btn-info" @click="edit(chapter)">
             <i class="ace-icon fa fa-pencil bigger-120"></i>
           </button>
-          <button class="btn btn-xs btn-danger">
+          <button class="btn btn-xs btn-danger" @click="deleteById(chapter.id)">
             <i class="ace-icon fa fa-trash-o bigger-120"></i>
           </button>
         </div>
@@ -43,7 +43,7 @@
       <pagination ref="pagination" v-bind:list="list" v-bind:item-count="itemCount"></pagination>
 
       <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog" role="document" >
           <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -120,6 +120,17 @@
         _this.chapter = $.extend({},chapter)
         $('#editModal').modal("show")
       },
+
+      deleteById(id){
+        let _this = this
+        _this.$ajax.post("http://127.0.0.1:10010/business/admin/deleteById/"+id)
+          .then(response=>{
+            if(response.data.success){
+                _this.list(1)
+            }
+          })
+      },
+
       saveOrUpdate(){
         let _this = this
         _this.$ajax.post("http://127.0.0.1:10010/business/admin/save",_this.chapter)
