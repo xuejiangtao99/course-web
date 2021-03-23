@@ -86,7 +86,7 @@
             methods:{
               login:function (){
 
-                this.$router.push("/admin/welcome")
+                this.$router.push("welcome")
               }
             }
           }
