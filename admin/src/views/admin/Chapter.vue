@@ -5,6 +5,11 @@
           <i class="ace-icon fa fa-refresh"></i>
           刷新
         </button>
+
+        <button @click="add()" class="btn btn-white btn-default btn-round" style="margin-left: 20px">
+          <i class="ace-icon fa fa-edit"></i>
+          新增
+        </button>
       </p>
       <table id="simple-table" class="table  table-bordered table-hover">
 
@@ -79,6 +84,37 @@
     </tbody>
   </table>
       <pagination ref="pagination" v-bind:list="list" v-bind:item-count="itemCount"></pagination>
+
+      <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">{{editTitle}}</h4>
+          </div>
+            <div class="modal-body">
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">名称</label>
+                  <div class="col-sm-10">
+                    <input v-model="chapter.name"  class="form-control"  placeholder="请输入大章名称">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label  class="col-sm-2 control-label">课程ID</label>
+                  <div class="col-sm-10">
+                    <input v-model="chapter.courseId" class="form-control"  placeholder="课程ID">
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" @click="saveOrUpdate()">保存</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
   </div>
 </template>
 
@@ -94,6 +130,8 @@
     data:function (){
       return {
         chapters:[],
+        editTitle:'新增',
+        chapter:{},
         pageDto:{page:1,size:1},
         //todo 后续更改动态
         itemCount:5
@@ -110,6 +148,21 @@
               _this.chapters = response.data.list;
               _this.$refs.pagination.render(page,response.data.total)
         })
+      },
+      add:function (){
+        $('#editModal').modal("show")
+        // $('#editModal').modal({backdrop:'static'}) //点击空白地方禁止关闭
+      },
+
+      saveOrUpdate(){
+        let _this = this
+        _this.$ajax.post("http://127.0.0.1:10010/business/admin/save",_this.chapter)
+            .then((response)=>{
+              if(response.data.success){
+                $('#editModal').modal('hide')
+                _this.list(1)
+              }
+            })
       }
     }
   }

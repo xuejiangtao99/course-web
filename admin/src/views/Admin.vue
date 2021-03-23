@@ -16,7 +16,7 @@
             <a href="index.html" class="navbar-brand">
               <small>
                 <i class="fa fa-leaf"></i>
-                Ace Admin
+                小李子学习监控
               </small>
             </a>
           </div>
