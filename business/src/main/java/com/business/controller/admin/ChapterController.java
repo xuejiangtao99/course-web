@@ -24,11 +24,11 @@ public class ChapterController {
      * 查询大章列表
      */
     @RequestMapping("/queryCharacterList")
-    public PageDto queryCharacterList(@RequestBody PageDto pageDto){
+    public ResponseDto queryCharacterList(@RequestBody PageDto pageDto){
 
         chapterService.list(pageDto);
 
-        return pageDto;
+        return new ResponseDto(true,200,null,pageDto);
     }
 
     @RequestMapping("/save")
@@ -36,6 +36,6 @@ public class ChapterController {
 
         chapterService.save(chapterDto);
 
-        return new ResponseDto(true,200,null,null);
+        return new ResponseDto(true,200,null,chapterDto);
     }
 }

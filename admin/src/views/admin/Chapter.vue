@@ -145,8 +145,11 @@
           size:_this.$refs.pagination.size})
             .then((response)=>{
           console.log(response.data)
-              _this.chapters = response.data.list;
-              _this.$refs.pagination.render(page,response.data.total)
+              let data = response.data;
+              if(data.success){
+                 _this.chapters = data.content.list;
+              }
+              _this.$refs.pagination.render(page,data.content.total)
         })
       },
       add:function (){

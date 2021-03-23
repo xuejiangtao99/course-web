@@ -471,7 +471,7 @@
       export default {
         name: 'Login',
         mounted() {
-          var _this = this
+          let _this = this
 
           $('body').attr('class', 'no-skin');
 
