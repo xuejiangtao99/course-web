@@ -81,16 +81,17 @@
     },
     data:function (){
       return {
-        chapters:[]
+        chapters:[],
+        pageDto:{page:1,size:1}
       }
     },
     methods:{
       list(){
         let _this =this;
-        _this.$ajax.get("http://127.0.0.1:10010/business/admin/queryCharacterList")
+        _this.$ajax.post("http://127.0.0.1:10010/business/admin/queryCharacterList",{page:1,size:1})
             .then((response)=>{
           console.log(response.data)
-              _this.chapters = response.data;
+              _this.chapters = response.data.list;
         })
       }
     }

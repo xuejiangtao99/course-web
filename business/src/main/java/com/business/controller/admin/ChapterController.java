@@ -3,7 +3,9 @@ package com.business.controller.admin;
 
 import com.server.domain.Chapter;
 import com.server.dto.ChapterDto;
+import com.server.dto.PageDto;
 import com.server.service.ChapterService;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
-public class BusinessController {
+public class ChapterController {
 
     @Resource
     private ChapterService chapterService;
@@ -21,8 +23,10 @@ public class BusinessController {
      * 查询大章列表
      */
     @RequestMapping("/queryCharacterList")
-    public List<ChapterDto> queryCharacterList(){
+    public PageDto queryCharacterList(@RequestBody PageDto pageDto){
 
-        return chapterService.list();
+        chapterService.list(pageDto);
+
+        return pageDto;
     }
 }

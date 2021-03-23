@@ -1,8 +1,10 @@
 package com.server.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.server.domain.Chapter;
 import com.server.dto.ChapterDto;
+import com.server.dto.PageDto;
 import com.server.example.ChapterExample;
 import com.server.mapper.ChapterMapper;
 import com.server.service.ChapterService;
@@ -20,16 +22,17 @@ public class ChapterServiceImpl implements ChapterService {
     private ChapterMapper chapterMapper;
 
     @Override
-    public List<ChapterDto> list(){
-        PageHelper.startPage(1,1);
+    public void list(PageDto pageDto){
+        PageHelper.startPage(pageDto.getPage(),pageDto.getSize());
         List<Chapter> chapters = chapterMapper.selectByExample(new ChapterExample());
         List<ChapterDto> list = new ArrayList<>();
-
+        PageInfo<Chapter> pageInfo = new PageInfo(chapters);
+        pageInfo.setTotal(pageInfo.getTotal());
         chapters.forEach(item->{
             ChapterDto chapterDto = new ChapterDto();
             BeanUtils.copyProperties(item,chapterDto);
             list.add(chapterDto);
         });
-        return list;
+        pageDto.setList(list);
     }
 }

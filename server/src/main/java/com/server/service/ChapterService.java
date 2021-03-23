@@ -1,10 +1,11 @@
 package com.server.service;
 
 import com.server.dto.ChapterDto;
+import com.server.dto.PageDto;
 
 import java.util.List;
 
 public interface ChapterService {
 
-    List<ChapterDto> list();
+    void list(PageDto pageDto);
 }
