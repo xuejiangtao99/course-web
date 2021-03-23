@@ -466,10 +466,16 @@
 
 <script>
 
+      import router from "@/router";
+
       export default {
         name: 'Login',
         mounted() {
+          var _this = this
+
           $('body').attr('class', 'no-skin');
+
+          _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
         },
         methods:{
           login:function (){
@@ -492,6 +498,18 @@
               parentLi.addClass("open active");
             }
           }
+        },
+        watch:{
+            $route:{
+              handler:function (val,oldVal){
+                //val 跳转路由 oldVal 跳转前路由
+                console.log("页面跳转"+val +"--->"+ oldVal)
+                let _this = this;
+                _this.$nextTick(function (){ //页面加载完成后执行
+                  _this.activeSidebar(_this.$route.name.replace("/","-")+"-sidebar");
+                })
+              },
+            }
         }
       }
 </script>
