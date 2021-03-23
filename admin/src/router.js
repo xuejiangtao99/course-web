@@ -18,15 +18,19 @@ export default new VueRouter({
         redirect: "/login",
     }, {
         path: "/login",
+        name:'loginLink',
         component: Login
     },{
         path:'/admin',
+        name:'adminLink',
         component:Admin,
         children:[{
             path:'welcome',
+            name:'welcomeLink',
             component:Welcome
         },{
-            path:"chapter",
+            path:"business/chapter",
+            name:'chapterLink',
             component:Chapter
         }]
     }]
