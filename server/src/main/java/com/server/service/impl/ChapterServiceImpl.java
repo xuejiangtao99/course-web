@@ -1,5 +1,6 @@
 package com.server.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.server.domain.Chapter;
 import com.server.dto.ChapterDto;
 import com.server.example.ChapterExample;
@@ -20,7 +21,7 @@ public class ChapterServiceImpl implements ChapterService {
 
     @Override
     public List<ChapterDto> list(){
-
+        PageHelper.startPage(1,1);
         List<Chapter> chapters = chapterMapper.selectByExample(new ChapterExample());
         List<ChapterDto> list = new ArrayList<>();
 
