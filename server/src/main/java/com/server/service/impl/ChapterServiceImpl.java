@@ -12,6 +12,7 @@ import com.server.utils.CopyUtil;
 import com.server.utils.UuidUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -36,9 +37,21 @@ public class ChapterServiceImpl implements ChapterService {
 
 
     public void save(ChapterDto chapterDto){
-        Chapter chapter = new Chapter();
-        BeanUtils.copyProperties(chapterDto,chapter);
+        Chapter chapter = CopyUtil.copyObject(chapterDto,Chapter.class);
+        if(StringUtils.isEmpty(chapterDto.getId())){
+            this.insert(chapter);
+        }else{
+            this.update(chapter);
+        }
+    }
+
+    private void insert(Chapter chapter){
+
         chapter.setId(UuidUtil.getShortUuid());
         chapterMapper.insert(chapter);
+    }
+
+    private void update(Chapter chapter){
+        chapterMapper.updateByPrimaryKey(chapter);
     }
 }
