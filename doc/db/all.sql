@@ -6,3 +6,4 @@ create table `chapter` (
                            `name` varchar(50) comment '名称',
                            primary key (`id`)
 ) engine=innodb default charset=utf8mb4 comment='大章';
+

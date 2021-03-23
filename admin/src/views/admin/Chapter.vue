@@ -1,5 +1,13 @@
 <template>
-  <table id="simple-table" class="table  table-bordered table-hover">
+  <div>
+      <p>
+        <button @click="list(1)" class="btn btn-white btn-default btn-round">
+          <i class="ace-icon fa fa-refresh"></i>
+          刷新
+        </button>
+      </p>
+      <table id="simple-table" class="table  table-bordered table-hover">
+
     <thead>
     <tr>
       <th>id</th>
@@ -70,28 +78,37 @@
     </tr>
     </tbody>
   </table>
+      <pagination ref="pagination" v-bind:list="list" v-bind:item-count="itemCount"></pagination>
+  </div>
 </template>
 
 <script>
+  import Pagination from '@/components/pagination'
   export default {
     name:'chapter',
+    components: {Pagination},
     mounted() {
       let _this = this;
-      _this.list();
+      _this.list(1);
     },
     data:function (){
       return {
         chapters:[],
-        pageDto:{page:1,size:1}
+        pageDto:{page:1,size:1},
+        //todo 后续更改动态
+        itemCount:5
       }
     },
     methods:{
-      list(){
+      list(page){
         let _this =this;
-        _this.$ajax.post("http://127.0.0.1:10010/business/admin/queryCharacterList",{page:1,size:1})
+        _this.$ajax.post("http://127.0.0.1:10010/business/admin/queryCharacterList",{
+          page:page,
+          size:_this.$refs.pagination.size})
             .then((response)=>{
           console.log(response.data)
               _this.chapters = response.data.list;
+              _this.$refs.pagination.render(page,response.data.total)
         })
       }
     }
