@@ -120,6 +120,7 @@
       edit:function (chapter){
         let _this = this
         _this.chapter = $.extend({},chapter)
+        _this.editTitle = "修改"
         $('#editModal').modal("show")
       },
 
@@ -148,6 +149,9 @@
                 toast.success("保存成功")
                 Loading.hide()
                 _this.list(1)
+              }else {
+                console.log(response.data)
+                toast.warning(response.data.msg)
               }
             })
       }

@@ -1,7 +1,7 @@
 package com.business.controller.admin;
 
 
-import com.server.domain.Chapter;
+
 import com.server.dto.ChapterDto;
 import com.server.dto.PageDto;
 import com.server.dto.ResponseDto;
@@ -10,12 +10,12 @@ import com.server.utils.ValidatorUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
 public class ChapterController {
 
+    public static final String BUSINESS_NAME = "大章";
     @Resource
     private ChapterService chapterService;
 
