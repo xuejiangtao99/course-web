@@ -123,12 +123,27 @@
 
       deleteById(id){
         let _this = this
-        _this.$ajax.post("http://127.0.0.1:10010/business/admin/deleteById/"+id)
-          .then(response=>{
-            if(response.data.success){
-                _this.list(1)
-            }
-          })
+
+        Swal.fire({
+          title: '确认删除吗?',
+          text: "你将删除这条数据",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: '确认',
+          cancelButtonText:'取消'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            _this.$ajax.delete("http://127.0.0.1:10010/business/admin/deleteById/"+id)
+                .then(response=>{
+                  if(response.data.success){
+                    toast.success("删除成功")
+                    _this.list(1)
+                  }
+                })
+          }
+        })
       },
 
       saveOrUpdate(){
@@ -137,6 +152,7 @@
             .then((response)=>{
               if(response.data.success){
                 $('#editModal').modal('hide')
+                toast.success("保存成功")
                 _this.list(1)
               }
             })
