@@ -97,6 +97,7 @@
     methods:{
       list(page){
         let _this =this;
+        Loading.show();
         _this.$ajax.post("http://127.0.0.1:10010/business/admin/queryCharacterList",{
           page:page,
           size:_this.$refs.pagination.size})
@@ -104,6 +105,7 @@
           console.log(response.data)
               let data = response.data;
               if(data.success){
+                Loading.hide();
                  _this.chapters = data.content.list;
               }
               _this.$refs.pagination.render(page,data.content.total)
@@ -135,10 +137,12 @@
           cancelButtonText:'取消'
         }).then((result) => {
           if (result.isConfirmed) {
+            Loading.show()
             _this.$ajax.delete("http://127.0.0.1:10010/business/admin/deleteById/"+id)
                 .then(response=>{
                   if(response.data.success){
                     toast.success("删除成功")
+                    Loading.hide()
                     _this.list(1)
                   }
                 })
@@ -150,9 +154,11 @@
         let _this = this
         _this.$ajax.post("http://127.0.0.1:10010/business/admin/save",_this.chapter)
             .then((response)=>{
+              Loading.show()
               if(response.data.success){
                 $('#editModal').modal('hide')
                 toast.success("保存成功")
+                Loading.hide()
                 _this.list(1)
               }
             })
