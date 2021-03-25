@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 @RequestMapping("/section")
 public class SectionController {
 
-    public static final String BUSINESS_NAME = "小结";
+    public static final String BUSINESS_NAME = "小节";
     @Resource
     private SectionService sectionService;
 
@@ -39,7 +39,7 @@ public class SectionController {
     public ResponseDto save(@RequestBody SectionDto sectionDto){
 
         //保存校验
-        ValidatorUtil.required(sectionDto.getTitle(),"小节标题");
+        ValidatorUtil.required(sectionDto.getTitle(),"小结名称");
         ValidatorUtil.required(sectionDto.getCourseId(),"课程");
 
         sectionService.save(sectionDto);

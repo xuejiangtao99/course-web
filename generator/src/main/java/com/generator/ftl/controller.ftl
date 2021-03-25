@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 @RequestMapping("/${domain}")
 public class ${Domain}Controller {
 
-    public static final String BUSINESS_NAME = ${tableNameCn};
+    public static final String BUSINESS_NAME = "${tableNameCn}";
     @Resource
     private ${Domain}Service ${domain}Service;
 

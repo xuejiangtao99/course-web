@@ -1,5 +1,7 @@
 package com.generator.server;
 
+import com.generator.util.DbUtil;
+import com.generator.util.Field;
 import com.generator.util.FreemarkerUtil;
 import freemarker.template.TemplateException;
 import org.dom4j.Attribute;
@@ -10,17 +12,17 @@ import org.dom4j.io.SAXReader;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ServerGenerator {
 
     static final String MODULE = "business";
     static String toPath = "server\\src\\main\\java\\com\\server\\service\\impl\\";
     static String toServicePath = "server\\src\\main\\java\\com\\server\\service\\";
+    static String toDtoPath = "server\\src\\main\\java\\com\\server\\dto\\";
     static String toControllerPath = MODULE+"\\src\\main\\java\\com\\"+MODULE+"\\controller\\admin\\";
     static String generatorConfigPath = "server\\src\\main\\resources\\generator\\generatorConfig.xml";
-    public static void main(String[] args) throws IOException, TemplateException, DocumentException {
+    public static void main(String[] args) throws Exception {
         Map<String,Object> map = new HashMap<>();
 //        String Domain = "Section";
        // String domain = "section";
@@ -43,15 +45,19 @@ public class ServerGenerator {
         String domain = Domain.substring(0, 1).toLowerCase() + Domain.substring(1);
         System.out.println("表："+tableElement.attributeValue("tableName"));
         System.out.println("Domain："+tableElement.attributeValue("domainObjectName"));
+        List<Field> fieldList = DbUtil.getColumnByTableName(domain);
+        Set<String> javaTypes = getJavaTypes(fieldList);
 
 
         String module = MODULE;
 
-        String tableNameCn ="+"+"小节"+"";
+        String tableNameCn = "小节";
         map.put("Domain",Domain);
         map.put("domain",domain);
         map.put("module",module);
         map.put("tableNameCn",tableNameCn);
+        map.put("fieldList",fieldList);
+        map.put("typeSet",javaTypes);
 
         //生成service及serviceImpl
         FreemarkerUtil.initConfig("serviceimpl.ftl");
@@ -66,10 +72,28 @@ public class ServerGenerator {
 
         //todo
         //生成Dto层代码
+        FreemarkerUtil.initConfig("dto.ftl");
+        FreemarkerUtil.generator(toDtoPath+Domain+"Dto.java",map);
 
 
 
 
+    }
 
+
+    /**
+     * Java类型去重，导包
+     * @param fieldList
+     * @return
+     */
+    private static Set<String> getJavaTypes(List<Field> fieldList){
+
+        Set<String> set = new HashSet<>();
+
+        fieldList.forEach(item->{
+            set.add(item.getJavaType());
+        });
+
+        return set;
     }
 }
