@@ -98,7 +98,7 @@
       list(page){
         let _this =this;
         Loading.show();
-        _this.$ajax.post("http://127.0.0.1:10010/business/admin/queryCharacterList",{
+        _this.$ajax.post(process.env.VUE_APP_SERVER+"/business/admin/queryCharacterList",{
           page:page,
           size:_this.$refs.pagination.size})
             .then((response)=>{
@@ -128,7 +128,7 @@
         let _this = this
         Confirm.show("删除后则不可恢复",function (){
           Loading.show()
-          _this.$ajax.delete("http://127.0.0.1:10010/business/admin/deleteById/"+id)
+          _this.$ajax.delete(process.env.NODE_ENV+"/business/admin/deleteById/"+id)
               .then(response=>{
                 if(response.data.success){
                   toast.success("删除成功")
@@ -141,7 +141,7 @@
 
       saveOrUpdate(){
         let _this = this
-        _this.$ajax.post("http://127.0.0.1:10010/business/admin/save",_this.chapter)
+        _this.$ajax.post(process.env.NODE_ENV+"/business/admin/save",_this.chapter)
             .then((response)=>{
               Loading.show()
               if(response.data.success){

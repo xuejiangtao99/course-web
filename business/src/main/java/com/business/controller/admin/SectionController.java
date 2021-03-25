@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/section")
 public class SectionController {
 
     public static final String BUSINESS_NAME = "小结";
