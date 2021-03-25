@@ -17,8 +17,13 @@ public class ServerGenerator {
         Map<String,Object> map = new HashMap<>();
         String Domain = "Section";
         String domain = "section";
+        String module = MODULE;
+
+        String tableNameCn ="+"+"小节"+"";
         map.put("Domain",Domain);
         map.put("domain",domain);
+        map.put("module",module);
+        map.put("tableNameCn",tableNameCn);
 
         //生成service及serviceImpl
         FreemarkerUtil.initConfig("serviceimpl.ftl");
