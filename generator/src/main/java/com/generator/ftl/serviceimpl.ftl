@@ -10,14 +10,11 @@ import com.server.mapper.${Domain}Mapper;
 import com.server.service.${Domain}Service;
 import com.server.utils.CopyUtil;
 import com.server.utils.UuidUtil;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ${Domain}ServiceImpl implements ${Domain}Service {
