@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/${domain}")
 public class ${Domain}Controller {
 
     public static final String BUSINESS_NAME = ${tableNameCn};
