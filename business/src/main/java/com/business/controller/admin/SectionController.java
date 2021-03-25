@@ -22,8 +22,8 @@ public class SectionController {
     /**
      * 查询大章列表
      */
-    @RequestMapping("/queryCharacterList")
-    public ResponseDto queryCharacterList(@RequestBody PageDto pageDto){
+    @RequestMapping("/querySectionList")
+    public ResponseDto querySectionList(@RequestBody PageDto pageDto){
 
         sectionService.list(pageDto);
 

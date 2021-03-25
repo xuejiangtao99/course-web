@@ -22,8 +22,8 @@ public class ${Domain}Controller {
     /**
      * 查询大章列表
      */
-    @RequestMapping("/queryCharacterList")
-    public ResponseDto queryCharacterList(@RequestBody PageDto pageDto){
+    @RequestMapping("/query${Domain}List")
+    public ResponseDto query${Domain}List(@RequestBody PageDto pageDto){
 
         ${domain}Service.list(pageDto);
 
