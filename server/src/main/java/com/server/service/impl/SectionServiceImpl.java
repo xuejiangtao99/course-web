@@ -12,6 +12,7 @@ import com.server.utils.CopyUtil;
 import com.server.utils.UuidUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import java.util.Date;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -50,12 +51,16 @@ public class SectionServiceImpl implements SectionService {
     }
 
     private void insert(Section section){
-
+        Date date = new Date();
+        section.setCreatedAt(date);
+        section.setUpdatedAt(date);
         section.setId(UuidUtil.getShortUuid());
         sectionMapper.insert(section);
     }
 
     private void update(Section section){
+    Date date = new Date();
+        section.setUpdatedAt(date);
         sectionMapper.updateByPrimaryKey(section);
     }
 }

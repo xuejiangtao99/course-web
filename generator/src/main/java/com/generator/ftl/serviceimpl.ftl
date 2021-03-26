@@ -57,11 +57,11 @@ public class ${Domain}ServiceImpl implements ${Domain}Service {
     private void insert(${Domain} ${domain}){
         Date date = new Date();
         <#list fieldList as field>
-            <#if field.nameHump == "createAt">
-        ${domain}.setCreateAt(date);
+            <#if field.nameHump == "createdAt">
+        ${domain}.setCreatedAt(date);
             </#if>
-            <#if field.nameHump == "updateAt">
-        ${domain}.setUpdateAt(date);
+            <#if field.nameHump == "updatedAt">
+        ${domain}.setUpdatedAt(date);
             </#if>
         </#list>
         ${domain}.setId(UuidUtil.getShortUuid());
@@ -69,9 +69,10 @@ public class ${Domain}ServiceImpl implements ${Domain}Service {
     }
 
     private void update(${Domain} ${domain}){
+    Date date = new Date();
     <#list fieldList as field>
-        <#if field.nameHump == "updateAt">
-        ${domain}.setUpdateAt(date);
+        <#if field.nameHump == "updatedAt">
+        ${domain}.setUpdatedAt(date);
         </#if>
     </#list>
         ${domain}Mapper.updateByPrimaryKey(${domain});
