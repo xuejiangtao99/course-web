@@ -183,9 +183,9 @@
           if (resp.success) {
             $("#form-modal").modal("hide");
             _this.list(1);
-            toast.success("保存成功！");
+            Toast.success("保存成功！");
           } else {
-            toast.warning(resp.message)
+            Toast.warning(resp.message)
           }
         })
       },
@@ -202,7 +202,7 @@
             let resp = response.data;
             if (resp.success) {
               _this.list(1);
-              toast.success("删除成功！");
+              Toast.success("删除成功！");
             }
           })
         });

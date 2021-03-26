@@ -41,7 +41,7 @@ public class ServerGenerator {
         tableElement=context.elementIterator("table").next();
         String Domain = tableElement.attributeValue("domainObjectName"); //读取属性
         String tableName = tableElement.attributeValue("tableName");
-//        String tableNameCn = DbUtil.getTableComment(tableName);
+        String tableNameCn = DbUtil.getTableComment(tableName);
         String domain = Domain.substring(0, 1).toLowerCase() + Domain.substring(1);
         System.out.println("表："+tableElement.attributeValue("tableName"));
         System.out.println("Domain："+tableElement.attributeValue("domainObjectName"));
@@ -51,7 +51,6 @@ public class ServerGenerator {
 
         String module = MODULE;
 
-        String tableNameCn = "小节";
         map.put("Domain",Domain);
         map.put("domain",domain);
         map.put("module",module);

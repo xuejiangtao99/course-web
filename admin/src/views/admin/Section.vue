@@ -186,14 +186,14 @@
       save() {
         let _this = this;
 
-        // 保存校验
-        // if (1 != 1
-        //   || !Validator.require(_this.section.title, "标题")
-        //   || !Validator.length(_this.section.title, "标题", 1, 50)
-        //   || !Validator.length(_this.section.video, "视频", 1, 200)
-        // ) {
-        //   return;
-        // }
+        //保存校验
+        if (1 != 1
+          || !Validator.require(_this.section.title, "标题")
+          || !Validator.length(_this.section.title, "标题", 1, 50)
+          || !Validator.length(_this.section.video, "视频", 1, 200)
+        ) {
+          return;
+        }
 
         Loading.show();
         _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/section/save', _this.section).then((response)=>{
@@ -202,9 +202,9 @@
           if (resp.success) {
             $("#form-modal").modal("hide");
             _this.list(1);
-            toast.success("保存成功！");
+            Toast.success("保存成功！");
           } else {
-            toast.warning(resp.message)
+            Toast.warning(resp.message)
           }
         })
       },
@@ -221,9 +221,9 @@
             let resp = response.data;
             if (resp.success) {
               _this.list(1);
-              toast.success("删除成功！");
+              Toast.success("删除成功！");
             }
-          })
+          })``
         });
       }
     }

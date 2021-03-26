@@ -1,36 +1,31 @@
-const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-align',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-})
-
-
-
-toast = {
-
-    success:function (msg){
-        Toast.fire({
+Toast = {
+    success: function (message) {
+        Swal.fire({
+            position: 'top-end',
             icon: 'success',
-            title: msg
+            title: message,
+            showConfirmButton: false,
+            timer: 10000
         })
     },
 
-    error:function (msg){
-        Toast.fire({
+    error: function (message) {
+        Swal.fire({
+            position: 'top-end',
             icon: 'error',
-            title: msg
+            title: message,
+            showConfirmButton: false,
+            timer: 5000
         })
     },
-    warning:function (msg){
-        Toast.fire({
+
+    warning: function (message) {
+        Swal.fire({
+            position: 'top-end',
             icon: 'warning',
-            title: msg
+            title: message,
+            showConfirmButton: false,
+            timer: 5000
         })
     }
-}
+};

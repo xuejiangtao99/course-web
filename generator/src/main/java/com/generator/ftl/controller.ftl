@@ -20,7 +20,7 @@ public class ${Domain}Controller {
     private ${Domain}Service ${domain}Service;
 
     /**
-     * 查询大章列表
+     * 查询${tableNameCn}列表
      */
     @RequestMapping("/query${Domain}List")
     public ResponseDto query${Domain}List(@RequestBody PageDto pageDto){
@@ -31,16 +31,24 @@ public class ${Domain}Controller {
     }
 
     /**
-     * 保存大章列表 新增/修改
+     * 保存${tableNameCn}列表列表 新增/修改
      * @param ${domain}Dto
      * @return
      */
     @PostMapping("/save")
     public ResponseDto save(@RequestBody ${Domain}Dto ${domain}Dto){
 
+
         //保存校验
-        ValidatorUtil.required(${domain}Dto.getName(),"大章名称");
-        ValidatorUtil.required(${domain}Dto.getCourseId(),"课程");
+        <#list filedList as  filed>
+            <#if !filed.nullAble>
+          ValidatorUtil.required(${domain}Dto.get${filed.nameBigHump}(),"${filed.nameCn}");
+            </#if>
+            <#if (filed.length) > 0>
+          ValidatorUtil.length(${domain}Dto.get${filed.nameBigHump}(),"${filed.nameCn}",1,${filed.length});
+            </#if>
+        </#list>
+
 
         ${domain}Service.save(${domain}Dto);
 

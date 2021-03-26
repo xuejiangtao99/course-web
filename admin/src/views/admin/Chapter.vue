@@ -128,10 +128,10 @@
         let _this = this
         Confirm.show("删除后则不可恢复",function (){
           Loading.show()
-          _this.$ajax.delete(process.env.NODE_ENV+"/business/admin/deleteById/"+id)
+          _this.$ajax.delete(process.env.VUE_APP_SERVER+"/business/admin/deleteById/"+id)
               .then(response=>{
                 if(response.data.success){
-                  toast.success("删除成功")
+                  Toast.success("删除成功")
                   Loading.hide()
                   _this.list(1)
                 }
@@ -141,17 +141,25 @@
 
       saveOrUpdate(){
         let _this = this
-        _this.$ajax.post(process.env.NODE_ENV+"/business/admin/save",_this.chapter)
+        if(
+            !Validator.require(_this.chapter.name,"名称") ||
+            !Validator.require(_this.chapter.courseId,"课程Id") ||
+            !Validator.length(_this.chapters.courseId,1,8)
+        ){
+
+          return ;
+        }
+        _this.$ajax.post(process.env.VUE_APP_SERVER+"/business/admin/save",_this.chapter)
             .then((response)=>{
               Loading.show()
               if(response.data.success){
                 $('#editModal').modal('hide')
-                toast.success("保存成功")
+                Toast.success("保存成功")
                 Loading.hide()
                 _this.list(1)
               }else {
                 console.log(response.data)
-                toast.warning(response.data.msg)
+                Toast.warning(response.data.msg)
               }
             })
       }
