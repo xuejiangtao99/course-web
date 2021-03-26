@@ -20,7 +20,7 @@ public class SectionController {
     private SectionService sectionService;
 
     /**
-     * 查询大章列表
+     * 查询小节列表
      */
     @RequestMapping("/querySectionList")
     public ResponseDto querySectionList(@RequestBody PageDto pageDto){
@@ -31,16 +31,18 @@ public class SectionController {
     }
 
     /**
-     * 保存大章列表 新增/修改
+     * 保存小节列表列表 新增/修改
      * @param sectionDto
      * @return
      */
     @PostMapping("/save")
     public ResponseDto save(@RequestBody SectionDto sectionDto){
 
+
         //保存校验
-        ValidatorUtil.required(sectionDto.getTitle(),"小结名称");
-        ValidatorUtil.required(sectionDto.getCourseId(),"课程");
+          ValidatorUtil.required(sectionDto.getId(),"id");
+          ValidatorUtil.required(sectionDto.getTitle(),"标题");
+
 
         sectionService.save(sectionDto);
 

@@ -40,11 +40,11 @@ public class ${Domain}Controller {
 
 
         //保存校验
-        <#list filedList as  filed>
+        <#list fieldList as  filed>
             <#if !filed.nullAble>
           ValidatorUtil.required(${domain}Dto.get${filed.nameBigHump}(),"${filed.nameCn}");
             </#if>
-            <#if (filed.length) > 0>
+             <#if (filed.length > 0) && (filed.javaType == 'Integer') || (filed.javaType == 'int')>
           ValidatorUtil.length(${domain}Dto.get${filed.nameBigHump}(),"${filed.nameCn}",1,${filed.length});
             </#if>
         </#list>

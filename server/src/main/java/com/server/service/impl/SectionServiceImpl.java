@@ -25,7 +25,9 @@ public class SectionServiceImpl implements SectionService {
     @Override
     public void list(PageDto pageDto){
         PageHelper.startPage(pageDto.getPage(),pageDto.getSize());
-        List<Section> sections = sectionMapper.selectByExample(new SectionExample());
+        SectionExample sectionExample = new SectionExample();
+                sectionExample.setOrderByClause("sort asc");
+        List<Section> sections = sectionMapper.selectByExample(sectionExample);
         PageInfo<Section> pageInfo = new PageInfo<>(sections);
         List<SectionDto> list = CopyUtil.copyList(sections, SectionDto.class);
         pageDto.setTotal((int) pageInfo.getTotal());

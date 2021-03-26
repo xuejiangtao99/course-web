@@ -25,7 +25,13 @@ public class ${Domain}ServiceImpl implements ${Domain}Service {
     @Override
     public void list(PageDto pageDto){
         PageHelper.startPage(pageDto.getPage(),pageDto.getSize());
-        List<${Domain}> ${domain}s = ${domain}Mapper.selectByExample(new ${Domain}Example());
+        ${Domain}Example ${domain}Example = new ${Domain}Example();
+        <#list fieldList as filed>
+            <#if filed.name == "sort">
+                ${domain}Example.setOrderByClause("sort asc");
+            </#if>
+        </#list>
+        List<${Domain}> ${domain}s = ${domain}Mapper.selectByExample(${domain}Example);
         PageInfo<${Domain}> pageInfo = new PageInfo<>(${domain}s);
         List<${Domain}Dto> list = CopyUtil.copyList(${domain}s, ${Domain}Dto.class);
         pageDto.setTotal((int) pageInfo.getTotal());
