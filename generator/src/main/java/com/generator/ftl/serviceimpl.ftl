@@ -12,6 +12,7 @@ import com.server.utils.CopyUtil;
 import com.server.utils.UuidUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import java.util.Date;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -54,12 +55,25 @@ public class ${Domain}ServiceImpl implements ${Domain}Service {
     }
 
     private void insert(${Domain} ${domain}){
-
+        Date date = new Date();
+        <#list fieldList as field>
+            <#if field.nameHump == "createAt">
+        ${domain}.setCreateAt(date);
+            </#if>
+            <#if field.nameHump == "updateAt">
+        ${domain}.setUpdateAt(date);
+            </#if>
+        </#list>
         ${domain}.setId(UuidUtil.getShortUuid());
         ${domain}Mapper.insert(${domain});
     }
 
     private void update(${Domain} ${domain}){
+    <#list fieldList as field>
+        <#if field.nameHump == "updateAt">
+        ${domain}.setUpdateAt(date);
+        </#if>
+    </#list>
         ${domain}Mapper.updateByPrimaryKey(${domain});
     }
 }
