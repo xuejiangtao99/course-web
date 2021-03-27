@@ -38,7 +38,7 @@
         <td>{{ section.chapterId }}</td>
         <td>{{ section.video }}</td>
         <td>{{ section.time }}</td>
-        <td>{{ section.charge }}</td>
+        <td>{{CHARS | optionKeyArray(section.charge) }}</td>
         <td>{{ section.sort }}</td>
         <td>{{ section.vod }}</td>
       <td>
@@ -133,6 +133,7 @@
       return {
         section: {},
         sections: [],
+        CHARS:[{key:'C',value:'收费'},{key:'F',value: '免费'}]
       }
     },
     mounted: function() {

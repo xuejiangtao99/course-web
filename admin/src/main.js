@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router.js'
 import axios from 'axios'
+import filter from "@/filter/filter";
 
 Vue.prototype.$ajax = axios;
 
@@ -23,3 +24,8 @@ new Vue({
 }).$mount('#app')
 
 console.log(process.env.VUE_APP_SERVER)
+
+//全局过滤器
+Object.keys(filter).forEach(key=>{
+  Vue.filter(key,filter[key]);
+})
