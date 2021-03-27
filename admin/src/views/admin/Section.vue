@@ -97,7 +97,10 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">收费</label>
                 <div class="col-sm-10">
-                  <input v-model="section.charge" class="form-control">
+<!--                  <input v-model="section.charge" class="form-control">-->
+                  <select v-model="section.charge" class="form-control">
+                    <option v-for=" charge in CHARS" v-bind:value="charge.key">{{charge.value}}</option>
+                  </select>
                 </div>
               </div>
               <div class="form-group">
@@ -133,13 +136,13 @@
       return {
         section: {},
         sections: [],
-        CHARS:[{key:'C',value:'收费'},{key:'F',value: '免费'}]
+        CHARS:CHARS
       }
     },
     mounted: function() {
       let _this = this;
       _this.$refs.pagination.size = 5;
-      _this.list(1);
+      添      _this.list(1);
       // sidebar激活样式方法一
       // this.$parent.activeSidebar("business-section-sidebar");
 
