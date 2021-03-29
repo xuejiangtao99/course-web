@@ -43,7 +43,7 @@ public class ${Domain}Controller {
         <#list fieldList as field>
         <#if field.name!="id" && field.nameHump!="createdAt" && field.nameHump!="updatedAt" && field.nameHump!="sort">
             <#if !field.nullAble>
-        ValidatorUtil.require(${domain}Dto.get${field.nameBigHump}(), "${field.nameCn}");
+        ValidatorUtil.required(${domain}Dto.get${field.nameBigHump}(), "${field.nameCn}");
             </#if>
             <#if (field.length > 0)>
         ValidatorUtil.length(${domain}Dto.get${field.nameBigHump}(), "${field.nameCn}", 1, ${field.length?c});

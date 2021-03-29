@@ -31,7 +31,7 @@ public class ValidatorUtil {
      * @param max
      * @param min
      */
-    public static void length(String str,String filedName,int max,int min){
+    public static void length(String str,String filedName,int min,int max){
 
         int length = 0;
 

@@ -31,7 +31,7 @@
         <#list fieldList as field>
           <#if field.nameHump!="createdAt" && field.nameHump!="updatedAt">
             <#if field.enums>
-        <td>{{${field.enumsConst} | optionKV(${domain}.${field.nameHump})}}</td>
+        <td>{{${field.enumsConst} | optionKVArray(${domain}.${field.nameHump})}}</td>
             <#else>
         <td>{{${domain}.${field.nameHump}}}</td>
             </#if>
@@ -142,7 +142,7 @@
       list(page) {
         let _this = this;
         Loading.show();
-        _this.$ajax.post(process.env.VUE_APP_SERVER + '/${module}/${domain}/querySectionList', {
+        _this.$ajax.post(process.env.VUE_APP_SERVER + '/${module}/${domain}/query${Domain}List', {
           page: page,
           size: _this.$refs.pagination.size,
         }).then((response)=>{
@@ -177,7 +177,7 @@
         }
 
         Loading.show();
-        _this.$ajax.post(process.env.VUE_APP_SERVER + '/${module}/admin/${domain}/save', _this.${domain}).then((response)=>{
+        _this.$ajax.post(process.env.VUE_APP_SERVER + '/${module}/${domain}/save', _this.${domain}).then((response)=>{
           Loading.hide();
           let resp = response.data;
           if (resp.success) {
@@ -185,7 +185,7 @@
             _this.list(1);
             Toast.success("保存成功！");
           } else {
-            Toast.warning(resp.message)
+            Toast.warning(resp.msg)
           }
         })
       },
@@ -197,7 +197,7 @@
         let _this = this;
         Confirm.show("删除${tableNameCn}后不可恢复，确认删除？", function () {
           Loading.show();
-          _this.$ajax.delete(process.env.VUE_APP_SERVER + '/${module}/admin/${domain}/deleteById/' + id).then((response)=>{
+          _this.$ajax.delete(process.env.VUE_APP_SERVER + '/${module}/${domain}/deleteById/' + id).then((response)=>{
             Loading.hide();
             let resp = response.data;
             if (resp.success) {

@@ -27,7 +27,6 @@ let optionKVArray = (list, key) =>  {
         return "";
     } else {
         let result = "";
-        console.log(list)
         for (let i = 0; i < list.length; i++) {
             if (key === list[i]["key"]) {
                 result = list[i]["value"];

@@ -17,14 +17,14 @@ public class EnumGenerator {
         StringBuffer bufferArray = new StringBuffer();
         long begin = System.currentTimeMillis();
         try {
-            toJson(SectionChargeEnum.class, bufferObject, bufferArray);
+            toJson(SectionChargeEnum.class, bufferObject, bufferArray); //小节是否收费
             toJson(YesNoEnum.class, bufferObject, bufferArray);
-            toJson(CourseLevelEnum.class, bufferObject, bufferArray);
-            toJson(CourseChargeEnum.class, bufferObject, bufferArray);
-            toJson(CourseStatusEnum.class, bufferObject, bufferArray);
-            toJson(FileUseEnum.class, bufferObject, bufferArray);
-            toJson(SmsUseEnum.class, bufferObject, bufferArray);
-            toJson(SmsStatusEnum.class, bufferObject, bufferArray);
+            toJson(CourseLevelEnum.class, bufferObject, bufferArray); //课程级别
+            toJson(CourseChargeEnum.class, bufferObject, bufferArray); //课程受否收费
+            toJson(CourseStatusEnum.class, bufferObject, bufferArray); //课程状态
+//            toJson(FileUseEnum.class, bufferObject, bufferArray);
+//            toJson(SmsUseEnum.class, bufferObject, bufferArray);
+//            toJson(SmsStatusEnum.class, bufferObject, bufferArray);
 
             StringBuffer buffer = bufferObject.append("\r\n").append(bufferArray);
             writeJs(buffer);
@@ -47,19 +47,19 @@ public class EnumGenerator {
         Method getCode = clazz.getMethod("getCode");
 
         // 生成对象
-        bufferObject.append(key).append("={");
+        bufferObject.append(key).append("=[");
         for (int i = 0; i < objects.length; i++) {
             Object obj = objects[i];
             if (getCode == null) {
-                bufferObject.append(name.invoke(obj)).append(":{key:\"").append(name.invoke(obj)).append("\", value:\"").append(getDesc.invoke(obj)).append("\"}");
+                bufferObject.append(name.invoke(obj)).append("={key:\"").append(name.invoke(obj)).append("\", value:\"").append(getDesc.invoke(obj)).append("\"}");
             } else {
-                bufferObject.append(name.invoke(obj)).append(":{key:\"").append(getCode.invoke(obj)).append("\", value:\"").append(getDesc.invoke(obj)).append("\"}");
+                bufferObject.append(name.invoke(obj)).append("={key:\"").append(getCode.invoke(obj)).append("\", value:\"").append(getDesc.invoke(obj)).append("\"}");
             }
             if (i < objects.length - 1) {
                 bufferObject.append(",");
             }
         }
-        bufferObject.append("};\r\n");
+        bufferObject.append("];\r\n");
 
         // 生成数组
         bufferArray.append(key).append("_ARRAY=[");
