@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.server.domain.Section;
 import com.server.dto.SectionDto;
 import com.server.dto.PageDto;
+import com.server.enums.SectionChargeEnum;
 import com.server.example.SectionExample;
 import com.server.mapper.SectionMapper;
 import com.server.service.SectionService;
@@ -55,6 +56,7 @@ public class SectionServiceImpl implements SectionService {
         section.setCreatedAt(date);
         section.setUpdatedAt(date);
         section.setId(UuidUtil.getShortUuid());
+        section.setCharge(SectionChargeEnum.CHARGE.getCode());
         sectionMapper.insert(section);
     }
 

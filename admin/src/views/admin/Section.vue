@@ -38,7 +38,7 @@
         <td>{{ section.chapterId }}</td>
         <td>{{ section.video }}</td>
         <td>{{ section.time }}</td>
-        <td>{{CHARS | optionKeyArray(section.charge) }}</td>
+        <td>{{CHARS | optionKVArray(section.charge)}}</td>
         <td>{{ section.sort }}</td>
         <td>{{ section.vod }}</td>
       <td>
@@ -136,13 +136,13 @@
       return {
         section: {},
         sections: [],
-        CHARS:CHARS
+        CHARS:SECTION_CHARGE,
       }
     },
     mounted: function() {
       let _this = this;
       _this.$refs.pagination.size = 5;
-      添      _this.list(1);
+          _this.list(1);
       // sidebar激活样式方法一
       // this.$parent.activeSidebar("business-section-sidebar");
 
