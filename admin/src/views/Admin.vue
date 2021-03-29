@@ -372,8 +372,10 @@
               <ul class="submenu">
                 <li class="">
                   <a href="typography.html">
-                    <i class="menu-icon fa fa-caret-right"></i>
-                    用户管理
+                    <router-link :to="{name:'system/user'}">
+                      <i class="menu-icon fa fa-caret-right"></i>
+                      用户管理
+                    </router-link>
                   </a>
 
                   <b class="arrow"></b>

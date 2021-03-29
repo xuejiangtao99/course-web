@@ -6,6 +6,7 @@ import Welcome from './views/admin/Welcome'
 import Chapter from './views/admin/Chapter'
 import Section from "@/views/admin/Section";
 import Course from "@/views/admin/Course";
+import User from "@/views/admin/User";
 
 
 Vue.use(VueRouter)
@@ -42,6 +43,10 @@ export default new VueRouter({
             path:"business/Course",
             name:"business/course",
             component:Course
+        },{
+            path:"system/User",
+            name:"system/user",
+            component:User
         }]
     }]
 })

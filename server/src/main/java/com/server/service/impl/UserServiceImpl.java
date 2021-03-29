@@ -1,0 +1,62 @@
+package com.server.service.impl;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.server.domain.User;
+import com.server.dto.UserDto;
+import com.server.dto.PageDto;
+import com.server.example.UserExample;
+import com.server.mapper.UserMapper;
+import com.server.service.UserService;
+import com.server.utils.CopyUtil;
+import com.server.utils.UuidUtil;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import java.util.Date;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+    @Resource
+    private UserMapper userMapper;
+
+    @Override
+    public void list(PageDto pageDto){
+        PageHelper.startPage(pageDto.getPage(),pageDto.getSize());
+        UserExample userExample = new UserExample();
+        List<User> users = userMapper.selectByExample(userExample);
+        PageInfo<User> pageInfo = new PageInfo<>(users);
+        List<UserDto> list = CopyUtil.copyList(users, UserDto.class);
+        pageDto.setTotal((int) pageInfo.getTotal());
+        pageDto.setList(list);
+    }
+
+
+    public void save(UserDto userDto){
+        User user = CopyUtil.copyObject(userDto,User.class);
+        if(StringUtils.isEmpty(userDto.getId())){
+            this.insert(user);
+        }else{
+            this.update(user);
+        }
+    }
+
+    @Override
+    public void deleteById(String id) {
+        userMapper.deleteByPrimaryKey(id);
+    }
+
+    private void insert(User user){
+        Date date = new Date();
+        user.setId(UuidUtil.getShortUuid());
+        userMapper.insert(user);
+    }
+
+    private void update(User user){
+    Date date = new Date();
+        userMapper.updateByPrimaryKey(user);
+    }
+}
