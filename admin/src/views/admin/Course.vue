@@ -13,6 +13,40 @@
     </p>
 
 
+    <div class="row">
+      <div class="col-md-4"  v-for="course in courses">
+        <div class="thumbnail search-thumbnail">
+          <img v-show="!course.image" class="media-object" data-src="static/image/course/default-pictures.jpg" />
+          <img v-show="course.image" class="media-object" v-bind:src="course.image" />
+          <div class="caption">
+            <div class="clearfix">
+              <span class="pull-right label label-grey info-label">
+                {{COURSE_LEVEL | optionKeyArray(course.level)}}
+              </span>
+              <span class="pull-right label label-grey info-label">
+                {{COURSE_CHARGE | optionKVArray(course.charge)}}
+              </span>
+              <span class="pull-right label label-grey info-label">
+               {{COURSE_STATUS | optionKVArray(course.status)}}
+              </span>
+            </div>
+
+            <h3 class="search-title">
+              <a href="#" class="blue">{{course.name}}</a>
+            </h3>
+            <p>{{course.summary}}</p>
+            <p>
+              <button v-on:click="edit(course)" class="btn btn-xs btn-info">
+                 <i class="ace-icon fa fa-pencil bigger-120"></i>
+              </button>
+              <button v-on:click="del(course.id)" class="btn btn-xs btn-danger">
+                <i class="ace-icon fa fa-trash-o bigger-120"></i>
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
     <table id="simple-table" class="table  table-bordered table-hover">
       <thead>
       <tr>

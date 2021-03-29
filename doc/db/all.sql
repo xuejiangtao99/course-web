@@ -50,3 +50,16 @@ create table course (
 ) engine=innodb default charset=utf8mb4 comment='课程';
 insert into course (id, name, summary, time, price, image, level, charge, status, enroll, sort, created_at, updated_at)
 values ('00000001', '测试课程01', '这是一门测试课程', 7200, 19.9, '', 1, 'C', 'P', 100, 0, now(), now());
+
+
+drop table if exists `user`;
+create table `user` (
+                        `id` char(8) not null default '' comment 'id',
+                        `login_name` varchar(50) not null comment '登陆名',
+                        `name` varchar(50) comment '昵称',
+                        `password` char(32) not null comment '密码',
+                        primary key (`id`),
+                        unique key `login_name_unique` (`login_name`)
+) engine=innodb default charset=utf8mb4 comment='用户';
+# 初始test/test
+insert into `user` (id, login_name, name, password) values ('10000000', 'test', '测试', 'e70e2222a9d67c4f2eae107533359aa4');
