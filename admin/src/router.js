@@ -24,6 +24,10 @@ export default new VueRouter({
         name:'login',
         component: Login
     },{
+        path:"",
+        name:'login',
+        redirect:'/login'
+    },{
         path:'/',
         name:'admin',
         component:Admin,

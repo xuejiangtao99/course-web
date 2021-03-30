@@ -70,7 +70,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">密码</label>
                 <div class="col-sm-10">
-                  <input v-model="user.password" class="form-control">
+                  <input v-model="user.password" class="form-control" type="password">
                 </div>
               </div>
             </form>
@@ -160,6 +160,7 @@
         }
 
         Loading.show();
+      _this.user.password = hex_md5(_this.user.password + KEY)
         _this.$ajax.post(process.env.VUE_APP_SERVER + '/system/user/save', _this.user).then((response)=>{
           Loading.hide();
           let resp = response.data;

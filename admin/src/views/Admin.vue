@@ -370,22 +370,22 @@
               <b class="arrow"></b>
 
               <ul class="submenu">
-                <li class="">
-                  <a href="typography.html">
-                    <router-link :to="{name:'system/user'}">
-                      <i class="menu-icon fa fa-caret-right"></i>
-                      用户管理
-                    </router-link>
-                  </a>
+                <li class="" id="system-user-sidebar">
+                  <router-link :to="{name:'system/user'}">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    用户管理
+                  </router-link>
 
                   <b class="arrow"></b>
                 </li>
-
+              </ul>
+              <ul class="submenu">
                 <li class="">
-                  <a href="elements.html">
+                  <router-link :to="{name:'system/user'}">
                     <i class="menu-icon fa fa-caret-right"></i>
                     权限管理
-                  </a>
+                  </router-link>
+
                   <b class="arrow"></b>
                 </li>
               </ul>
@@ -517,6 +517,7 @@
             if (parentLi) {
               parentLi.siblings().removeClass("open active");
               parentLi.siblings().find("li").removeClass("active");
+              parentLi.siblings().find("li").removeClass("active")
               parentLi.addClass("open active");
             }
           }

@@ -54,11 +54,11 @@ public class UserServiceImpl implements UserService {
     private void insert(User user){
         Date date = new Date();
         user.setId(UuidUtil.getShortUuid());
-        userMapper.insert(user);
         User userDb = selectByUserName(user.getName());
         if(userDb != null){
             throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
         }
+        userMapper.insert(user);
 
     }
 
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
         UserExample userExample = new UserExample();
         userExample.createCriteria().andLoginNameEqualTo(userName);
         List<User> users = userMapper.selectByExample(userExample);
-        if(StringUtils.isEmpty(users)){
+        if(users.size() == 0){
             return null;
         }
         return users.get(0);
