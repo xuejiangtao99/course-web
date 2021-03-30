@@ -58,7 +58,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">登陆名</label>
                 <div class="col-sm-10">
-                  <input v-model="user.loginName" class="form-control">
+                  <input v-model="user.loginName"  v-bind:disabled="user.id" class="form-control">
                 </div>
               </div>
               <div class="form-group">
@@ -112,6 +112,8 @@
         let _this = this;
         _this.user = {};
         $("#form-modal").modal("show");
+        // document.getElementById()
+
       },
 
       /**
@@ -166,7 +168,8 @@
             _this.list(1);
             Toast.success("保存成功！");
           } else {
-            Toast.warning(resp.msg)
+            console.log(resp+"*+*****")
+            Toast.warning(resp.msg.desc)
           }
         })
       },
