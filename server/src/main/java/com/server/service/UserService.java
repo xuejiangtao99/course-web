@@ -11,4 +11,6 @@ public interface UserService {
     void save(UserDto userDto);
 
     void deleteById(String id);
+
+    void resetPassword(String id);
 }

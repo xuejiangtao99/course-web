@@ -7,6 +7,7 @@ import com.server.dto.PageDto;
 import com.server.dto.ResponseDto;
 import com.server.service.UserService;
 import com.server.utils.ValidatorUtil;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,6 +55,13 @@ public class UserController {
     public ResponseDto deleteById(@PathVariable("id") String id){
 
             userService.deleteById(id);
+        return new ResponseDto(true,200,null,null);
+    }
+
+    @Update("/resetPassword/{id}")
+    public ResponseDto resetPassword(@PathVariable("id") String id){
+
+        userService.resetPassword(id);
         return new ResponseDto(true,200,null,null);
     }
 }

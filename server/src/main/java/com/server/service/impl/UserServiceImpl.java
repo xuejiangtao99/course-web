@@ -63,9 +63,21 @@ public class UserServiceImpl implements UserService {
     }
 
     private void update(User user){
-        Date date = new Date();
-        userMapper.updateByPrimaryKey(user);
+
+        user.setPassword(null);
+        userMapper.updateByPrimaryKeySelective(user); //selective 会自动进行非空判断,如果有空值,则不更新
     }
+
+
+    @Override
+    public void resetPassword(String id) {
+
+        User user = new User();
+        user.setId(id);
+        user.setPassword("04d53ca3e28a522a4ddf8b07428b4599");
+        userMapper.updateByPrimaryKeySelective(user);
+    }
+
 
 
     /***

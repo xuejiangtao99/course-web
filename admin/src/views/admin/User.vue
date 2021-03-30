@@ -38,6 +38,9 @@
           <button v-on:click="del(user.id)" class="btn btn-xs btn-danger">
             <i class="ace-icon fa fa-trash-o bigger-120"></i>
           </button>
+          <button v-on:click="resetPassword(user.id)" class="btn btn-xs btn-default">
+            <i class="ace-icon fa fa-key bigger-120"></i>
+          </button>
         </div>
       </td>
       </tr>
@@ -46,7 +49,7 @@
     <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
 
 
-    <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
+   <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -67,7 +70,7 @@
                   <input v-model="user.name" class="form-control">
                 </div>
               </div>
-              <div class="form-group">
+              <div v-show="!user.id" class="form-group">
                 <label class="col-sm-2 control-label">密码</label>
                 <div class="col-sm-10">
                   <input v-model="user.password" class="form-control" type="password">
@@ -188,6 +191,23 @@
             if (resp.success) {
               _this.list(1);
               Toast.success("删除成功！");
+            }
+          })
+        });
+      },
+      /**
+       * 重置密码
+       */
+      resetPassword:function (id){
+        let _this = this
+        Confirm.show("确定要重置密码吗?", function () {
+          Loading.show();
+          _this.$ajax.post(process.env.VUE_APP_SERVER + '/system/user/resetPassword/' +id).then((response)=>{
+            Loading.hide();
+            let resp = response.data;
+            if (resp.success) {
+              _this.list(1);
+              Toast.success("重置成功!");
             }
           })
         });
