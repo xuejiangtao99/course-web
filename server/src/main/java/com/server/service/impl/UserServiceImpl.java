@@ -6,6 +6,8 @@ import com.server.domain.User;
 import com.server.dto.UserDto;
 import com.server.dto.PageDto;
 import com.server.example.UserExample;
+import com.server.exception.BusinessException;
+import com.server.exception.BusinessExceptionCode;
 import com.server.mapper.UserMapper;
 import com.server.service.UserService;
 import com.server.utils.CopyUtil;
@@ -53,10 +55,33 @@ public class UserServiceImpl implements UserService {
         Date date = new Date();
         user.setId(UuidUtil.getShortUuid());
         userMapper.insert(user);
+        User userDb = selectByUserName(user.getName());
+        if(userDb != null){
+            throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
+        }
+
     }
 
     private void update(User user){
-    Date date = new Date();
+        Date date = new Date();
         userMapper.updateByPrimaryKey(user);
+    }
+
+
+    /***
+     * 根据登录名查用户信息
+     * @author XueJiangTao
+     * @date 2021/3/29
+     * @param [userName]
+     * @return com.server.domain.User
+     */
+    public User selectByUserName(String userName){
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andLoginNameEqualTo(userName);
+        List<User> users = userMapper.selectByExample(userExample);
+        if(StringUtils.isEmpty(users)){
+            return null;
+        }
+        return users.get(0);
     }
 }
