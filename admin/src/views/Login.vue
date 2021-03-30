@@ -30,14 +30,14 @@
                       <fieldset>
                         <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="用户名" />
+															<input type="text" class="form-control" placeholder="用户名" v-model="user.loginName"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
                         </label>
 
                         <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="密码" />
+															<input type="password" class="form-control" placeholder="密码" v-model="user.password"/>
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
                         </label>
@@ -46,12 +46,12 @@
 
                         <div class="clearfix">
                           <label class="inline" style="float: left">
-                            <input type="checkbox" class="ace" />
+                            <input type="checkbox" class="ace"/>
                             <span class="lbl" style="font-size: 10px">记住我</span>
                           </label>
 
                           <button type="button" class="width-35 pull-right btn btn-sm btn-primary"
-                            @click="login()"
+                                  @click="login()"
                           >
                             <i class="ace-icon fa fa-key"></i>
                             <span class="bigger-110">登录</span>
@@ -75,24 +75,40 @@
 </template>
 
 <script>
-          export default {
-            name: 'Login',
-            props: {
-              msg: String
-            },
-            mounted() {
-              $('body').attr('class', 'login-layout light-login');
-            },
-            methods:{
-              login:function (){
+export default {
+  name: 'login',
+  props: {
+    msg: String
+  },
+  data() {
+    return {
+      user: {},
+    }
+  },
+  mounted() {
+    $('body').attr('class', 'login-layout light-login');
+  },
+  methods: {
+    login: function () {
 
-                this.$router.push("welcome")
-              }
-            }
-          }
+      let _this = this
+      _this.user.password = hex_md5(_this.user.password+KEY)
+      Loading.show()
+      _this.$ajax.post(process.env.VUE_APP_SERVER + "/system/admin/login", _this.user).then((respond) => {
+        console.log(respond)
+        let resp = respond.data
+        Loading.hide()
+        if (resp.success) {
+          _this.user = resp.content
+          _this.$router.push("/welcome")
+        }else{
+          Toast.warning(resp.msg)
+        }
+      })
+    }
+  }
+}
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
 </style>

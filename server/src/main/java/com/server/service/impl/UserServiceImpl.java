@@ -87,6 +87,7 @@ public class UserServiceImpl implements UserService {
      * @param [userName]
      * @return com.server.domain.User
      */
+    @Override
     public User selectByUserName(String userName){
         UserExample userExample = new UserExample();
         userExample.createCriteria().andLoginNameEqualTo(userName);
