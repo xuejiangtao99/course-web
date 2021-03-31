@@ -97,9 +97,10 @@ export default {
       _this.$ajax.post(process.env.VUE_APP_SERVER + "/system/admin/login", _this.user).then((respond) => {
         console.log(respond)
         let resp = respond.data
+        console.log(respond.data.content)
         Loading.hide()
         if (resp.success) {
-          _this.user = resp.content
+          sessionStorage.setItem(SESSION_KEY_LOGIN_USER,JSON.stringify(resp.content))
           _this.$router.push("/welcome")
         }else{
           Toast.warning(resp.msg)

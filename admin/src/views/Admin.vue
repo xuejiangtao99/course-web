@@ -283,7 +283,7 @@
                   <img class="nav-user-photo" src="../../public/ace/assets/images/avatars/user.jpg" alt="Jason's Photo" />
                   <span class="user-info">
 									<small>Welcome,</small>
-									Jason
+									{{loginUser.name}}
 								</span>
 
                   <i class="ace-icon fa fa-caret-down"></i>
@@ -488,16 +488,21 @@
 
 <script>
 
-      import router from "@/router";
-
       export default {
         name: 'Login',
+       data:function (){
+
+          return {
+            loginUser:{name:'123',username:'321'},
+          }
+       },
         mounted() {
           let _this = this
 
           $('body').attr('class', 'no-skin');
 
           _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
+          _this.loginUser = JSON.parse(sessionStorage.getItem(SESSION_KEY_LOGIN_USER));
         },
         methods:{
           login:function (){
