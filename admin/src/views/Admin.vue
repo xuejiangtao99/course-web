@@ -293,23 +293,23 @@
                   <li>
                     <a href="#">
                       <i class="ace-icon fa fa-cog"></i>
-                      Settings
+                      系统设置
                     </a>
                   </li>
 
                   <li>
                     <a href="profile.html">
                       <i class="ace-icon fa fa-user"></i>
-                      Profile
+                      个人信息
                     </a>
                   </li>
 
                   <li class="divider"></li>
 
                   <li>
-                    <a href="#">
+                    <a href="#" @click="logout()">
                       <i class="ace-icon fa fa-power-off"></i>
-                      Logout
+                      退出登录
                     </a>
                   </li>
                 </ul>
@@ -505,9 +505,17 @@
           _this.loginUser = JSON.parse(sessionStorage.getItem(SESSION_KEY_LOGIN_USER));
         },
         methods:{
-          login:function (){
-
-            this.$router.push("/admin")
+          logout:function (){
+            let _this = this
+            _this.$ajax.get(process.env.VUE_APP_SERVER + "/system/admin/logout").then(respond=>{
+              let data = respond.data;
+              if(data.success){
+                Loading.show()
+                sessionStorage.setItem(SESSION_KEY_LOGIN_USER,null);
+                _this.$router.push("/login")
+                Loading.hide()
+              }
+            })
           },
           activeSidebar:function (id){
             //去掉兄弟元素中的active样式,并且给自己添加active样式
