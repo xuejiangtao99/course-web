@@ -46,7 +46,7 @@
 
                         <div class="clearfix">
                           <label class="inline" style="float: left">
-                            <input type="checkbox" class="ace"/>
+                            <input type="checkbox" class="ace" @click="checkboxClick" :checked="remember"/>
                             <span class="lbl" style="font-size: 10px">记住我</span>
                           </label>
 
@@ -83,16 +83,31 @@ export default {
   data() {
     return {
       user: {},
+      remember: false
     }
   },
   mounted() {
     $('body').attr('class', 'login-layout light-login');
+
+    let rememberUser = JSON.parse(localStorage.getItem(LOCAL_KEY_USER_REMEMBER));
+    if (rememberUser != null) {
+      let _this = this
+      _this.user = rememberUser
+    }
   },
   methods: {
-    login: function () {
-
+    checkboxClick: function () {
       let _this = this
-      _this.user.password = hex_md5(_this.user.password+KEY)
+      if (_this.remember) {
+          _this.remember = false
+      }else{
+        _this.remember = true
+      }
+    },
+    login: function () {
+      let _this = this
+      let rememberPassword = _this.user.password
+      _this.user.password = hex_md5(_this.user.password + KEY)
       Loading.show()
       _this.$ajax.post(process.env.VUE_APP_SERVER + "/system/admin/login", _this.user).then((respond) => {
         console.log(respond)
@@ -100,9 +115,18 @@ export default {
         console.log(respond.data.content)
         Loading.hide()
         if (resp.success) {
-          sessionStorage.setItem(SESSION_KEY_LOGIN_USER,JSON.stringify(resp.content))
+          sessionStorage.setItem(SESSION_KEY_LOGIN_USER, JSON.stringify(resp.content))
           _this.$router.push("/welcome")
-        }else{
+          let loginUser = resp.content
+          if (_this.remember) {
+            localStorage.setItem(LOCAL_KEY_USER_REMEMBER, JSON.stringify({
+              loginName: loginUser.loginName,
+              password: rememberPassword
+            }));
+          } else {
+            localStorage.setItem(LOCAL_KEY_USER_REMEMBER, null);
+          }
+        } else {
           Toast.warning(resp.msg)
         }
       })
