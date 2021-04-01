@@ -46,7 +46,7 @@
 
                         <div class="clearfix">
                           <label class="inline" style="float: left">
-                            <input type="checkbox" class="ace" @click="checkboxClick" :checked="remember"/>
+                            <input type="checkbox" class="ace" v-model="remember"/>
                             <span class="lbl" style="font-size: 10px">记住我</span>
                           </label>
 
@@ -83,7 +83,7 @@ export default {
   data() {
     return {
       user: {},
-      remember: false
+      remember: true
     }
   },
   mounted() {
@@ -106,22 +106,25 @@ export default {
     },
     login: function () {
       let _this = this
-      let rememberPassword = _this.user.password
-      _this.user.password = hex_md5(_this.user.password + KEY)
+      let md5 = hex_md5(_this.user.password)
+      let rememberUser = JSON.parse(localStorage.getItem(LOCAL_KEY_USER_REMEMBER)) || {}
+      if(md5 !== rememberUser.md5){
+        _this.user.password = hex_md5(_this.user.password + KEY)
+      }
       Loading.show()
       _this.$ajax.post(process.env.VUE_APP_SERVER + "/system/admin/login", _this.user).then((respond) => {
-        console.log(respond)
         let resp = respond.data
-        console.log(respond.data.content)
         Loading.hide()
         if (resp.success) {
           sessionStorage.setItem(SESSION_KEY_LOGIN_USER, JSON.stringify(resp.content))
           _this.$router.push("/welcome")
           let loginUser = resp.content
           if (_this.remember) {
+            md5 = hex_md5(_this.user.password)
             localStorage.setItem(LOCAL_KEY_USER_REMEMBER, JSON.stringify({
               loginName: loginUser.loginName,
-              password: rememberPassword
+              password: _this.user.password,
+              md5:md5
             }));
           } else {
             localStorage.setItem(LOCAL_KEY_USER_REMEMBER, null);

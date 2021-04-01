@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/admin")
 public class LoginController {
 
+        public static final String BUSINESS_NAME = "登录";
+
         @Autowired
         private UserService userService;
 
