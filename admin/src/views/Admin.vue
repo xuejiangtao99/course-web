@@ -507,7 +507,7 @@
         methods:{
           logout:function (){
             let _this = this
-            _this.$ajax.get(process.env.VUE_APP_SERVER + "/system/admin/logout").then(respond=>{
+            _this.$ajax.get(process.env.VUE_APP_SERVER + "/system/admin/logout/"+_this.loginUser.token).then(respond=>{
               let data = respond.data;
               if(data.success){
                 Loading.show()

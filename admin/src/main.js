@@ -6,6 +6,9 @@ import filter from "@/filter/filter";
 
 Vue.prototype.$ajax = axios;
 
+//解决前后端分离每一次Ajax请求的时候，对应的sessionId 不一致
+axios.defaults.withCredentials = true
+
 axios.interceptors.request.use(function (config){
       console.log("请求"+config)
   return config;

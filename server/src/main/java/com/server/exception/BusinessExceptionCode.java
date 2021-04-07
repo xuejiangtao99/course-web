@@ -9,7 +9,8 @@ public enum BusinessExceptionCode {
     MOBILE_CODE_TOO_FREQUENT("短信请求过于频繁","1005"),
     MOBILE_CODE_ERROR("短信验证码不正确","1006"),
     MOBILE_CODE_EXPIRED("短信验证码不存在或已过期，请重新发送短信","1007"),
-    ;
+    IMAGE_CODE_TIMEOUT("验证码过期","2001"),
+    IMAGE_CODE_DIVERSE("验证码不一致","2002"),;
 
     private String desc;
 

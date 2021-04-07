@@ -8,9 +8,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginDto {
+
     private String loginName;
+
 
     private String name;
 
+    /**
+     * 登录凭证
+     */
+    private String token;
 
 }

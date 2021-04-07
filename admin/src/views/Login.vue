@@ -42,6 +42,18 @@
 														</span>
                         </label>
 
+
+                        <label class="block clearfix">
+                          <span class="block input-icon input-icon-right">
+                            <div class="input-group">
+                              <input v-model="user.imageCode" type="text" class="form-control" placeholder="验证码">
+                              <span class="input-group-addon" id="basic-addon2">
+                                <img v-on:click="loadImageCode()" id="image-code" alt="验证码"/>
+                              </span>
+                            </div>
+                          </span>
+                        </label>
+
                         <div class="space"></div>
 
                         <div class="clearfix">
@@ -83,24 +95,25 @@ export default {
   data() {
     return {
       user: {},
-      remember: true
+      remember: true,
     }
   },
   mounted() {
+    let _this = this
     $('body').attr('class', 'login-layout light-login');
 
     let rememberUser = JSON.parse(localStorage.getItem(LOCAL_KEY_USER_REMEMBER));
     if (rememberUser != null) {
-      let _this = this
       _this.user = rememberUser
     }
+    _this.loadImageCode();
   },
   methods: {
     checkboxClick: function () {
       let _this = this
       if (_this.remember) {
-          _this.remember = false
-      }else{
+        _this.remember = false
+      } else {
         _this.remember = true
       }
     },
@@ -108,7 +121,7 @@ export default {
       let _this = this
       let md5 = hex_md5(_this.user.password)
       let rememberUser = JSON.parse(localStorage.getItem(LOCAL_KEY_USER_REMEMBER)) || {}
-      if(md5 !== rememberUser.md5){
+      if (md5 !== rememberUser.md5) {
         _this.user.password = hex_md5(_this.user.password + KEY)
       }
       Loading.show()
@@ -124,7 +137,7 @@ export default {
             localStorage.setItem(LOCAL_KEY_USER_REMEMBER, JSON.stringify({
               loginName: loginUser.loginName,
               password: _this.user.password,
-              md5:md5
+              md5: md5
             }));
           } else {
             localStorage.setItem(LOCAL_KEY_USER_REMEMBER, null);
@@ -133,6 +146,12 @@ export default {
           Toast.warning(resp.msg)
         }
       })
+    },
+    //生成验证码图片
+    loadImageCode: function () {
+      let _this = this
+      _this.user.imageCodeToken = Tool.uuid(8);
+      $("#image-code").attr("src", process.env.VUE_APP_SERVER + "/system/admin/image-code/" + _this.user.imageCodeToken)
     }
   }
 }
