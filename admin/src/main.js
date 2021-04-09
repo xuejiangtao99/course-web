@@ -10,9 +10,15 @@ Vue.prototype.$ajax = axios;
 axios.defaults.withCredentials = true
 
 axios.interceptors.request.use(function (config) {
-    console.log("请求" + config)
+    console.log("请求" + JSON.stringify(config))
+    //后端拦截,先在请求添加token
+    let loginUser = JSON.parse(sessionStorage.getItem(SESSION_KEY_LOGIN_USER));
+    if(Tool.isNotEmpty(loginUser)){
+        config.headers.token = loginUser.token
+    }
     return config;
 }, error => {
+    return Promise.reject(error);
 })
 
 axios.interceptors.response.use(function (response) {
