@@ -27,9 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import static com.server.utils.StringUtils.LOGIN_USER;
 
 @RestController
 @RequestMapping("/admin")
