@@ -25,12 +25,14 @@ export default new VueRouter({
         component: Login
     },{
         path:"",
-        name:'login',
         redirect:'/login'
     },{
         path:'/',
         name:'admin',
         component:Admin,
+        meta:{
+            loginRequire:true
+        },
         children:[{
             path:'welcome',
             name:'welcome',
@@ -40,15 +42,15 @@ export default new VueRouter({
             name:'business/chapter',
             component:Chapter
         },{
-            path:"business/Section",
+            path:"business/section",
             name:"business/section",
             component:Section
         },{
-            path:"business/Course",
+            path:"business/course",
             name:"business/course",
             component:Course
         },{
-            path:"system/User",
+            path:"system/user",
             name:"system/user",
             component:User
         }]
