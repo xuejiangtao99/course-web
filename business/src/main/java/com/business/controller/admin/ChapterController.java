@@ -2,6 +2,7 @@ package com.business.controller.admin;
 
 
 
+import com.server.config.OperLog;
 import com.server.dto.ChapterDto;
 import com.server.dto.PageDto;
 import com.server.dto.ResponseDto;
@@ -23,6 +24,7 @@ public class ChapterController {
      * 查询大章列表
      */
     @RequestMapping("/queryCharacterList")
+    @OperLog(operModul = "大章管理-查询大章",operType = "查询",operDesc = "查询大章列表")
     public ResponseDto queryCharacterList(@RequestBody PageDto pageDto){
 
         chapterService.list(pageDto);
@@ -35,6 +37,7 @@ public class ChapterController {
      * @param chapterDto
      * @return
      */
+    @OperLog(operModul = "大章管理-新增/修改大章",operType = "操作",operDesc = "新增大章")
     @PostMapping("/save")
     public ResponseDto save(@RequestBody ChapterDto chapterDto){
 
@@ -47,6 +50,7 @@ public class ChapterController {
         return new ResponseDto(true,200,null,chapterDto);
     }
 
+    @OperLog(operModul = "大章管理-删除大章",operType = "删除",operDesc = "大章删除功能")
     @DeleteMapping("/deleteById/{id}")
     public ResponseDto deleteById(@PathVariable("id") String id){
 

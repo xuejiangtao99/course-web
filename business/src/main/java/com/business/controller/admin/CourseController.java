@@ -2,6 +2,7 @@ package com.business.controller.admin;
 
 
 
+import com.server.config.OperLog;
 import com.server.dto.CourseDto;
 import com.server.dto.PageDto;
 import com.server.dto.ResponseDto;
@@ -22,6 +23,7 @@ public class CourseController {
     /**
      * 查询课程列表
      */
+    @OperLog(operModul = "课程管理-课程查询",operType = "查询" ,operDesc = "查询课程列表")
     @RequestMapping("/queryCourseList")
     public ResponseDto queryCourseList(@RequestBody PageDto pageDto){
 
@@ -35,6 +37,7 @@ public class CourseController {
      * @param courseDto
      * @return
      */
+    @OperLog(operModul = "课程管理-新增/修改大章",operType = "操作" ,operDesc = "课程新增功能")
     @PostMapping("/save")
     public ResponseDto save(@RequestBody CourseDto courseDto){
 
@@ -49,6 +52,7 @@ public class CourseController {
         return new ResponseDto(true,200,null,courseDto);
     }
 
+    @OperLog(operModul = "课程管理-删除课程",operType = "删除",operDesc = "课程删除功能")
     @DeleteMapping("/deleteById/{id}")
     public ResponseDto deleteById(@PathVariable("id") String id){
 
