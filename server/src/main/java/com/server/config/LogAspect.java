@@ -1,28 +1,39 @@
 package com.server.config;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.support.spring.PropertyPreFilters;
+import com.server.dto.LogDto;
+import com.server.dto.LoginDto;
+import com.server.service.LogService;
 import com.server.utils.UuidUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Date;
+import java.util.Map;
 
 
 @Aspect
@@ -30,6 +41,21 @@ import java.lang.reflect.Field;
 public class LogAspect {
 
     private static final Logger LOGGER  = LoggerFactory.getLogger(LogAspect.class);
+
+    @Autowired
+    private LogService logService;
+
+    @Resource
+    private RedisTemplate redisTemplate;
+
+
+    /**
+     * 操作版本号，例如项目启动时候 java -jar xxx.jar --version=20210412
+     */
+    @Value("${version}")
+    private String version;
+
+
 
     /**定义一个切入点*/
     @Pointcut("execution(public * com.*.controller..*Controller.*(..))")
@@ -119,4 +145,87 @@ public class LogAspect {
         LOGGER.info("------------- 结束 耗时：{} ms -------------", System.currentTimeMillis() - startTime);
         return result;
     }
+
+    /**
+     * 正常返回通知，拦截用户操作日志，连接点正常执行完成后执行， 如果连接点抛出异常，则不会执行
+     * @param joinPoint 切入点
+     * @param keys 返回结果
+     */
+    @AfterReturning(value = "ControllerPointcut()",returning = "keys") /*后置通知*/
+    public void saveLog(JoinPoint joinPoint,Object keys){
+        try {
+            //获取requestAttributes
+            RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+
+            //从requestAttributes获取servletRequest的信息
+            HttpServletRequest request = (HttpServletRequest)
+                    requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
+
+            LogDto log = new LogDto();
+
+            //从切面织入点处通过反射机制获取织入点处的方法
+            MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+            //获取切入点所在方法
+            Method method = signature.getMethod();
+            //反射获取方法上的注解
+            OperLog operLog = method.getAnnotation(OperLog.class);
+            if(operLog != null){
+                String operModul = operLog.operModul(); //操作模块
+                String operDesc = operLog.operDesc();//操作描述
+                String operType = operLog.operType();//操作类型
+                log.setOperModul(operModul);
+                log.setOperDesc(operDesc);
+                log.setOperType(operType);
+            }
+
+            //获取请求类明
+            String className = joinPoint.getTarget().getClass().getName();
+            //获取请求方法名
+            String methodName = method.getName();
+            methodName = className + "." + methodName;
+            log.setRequiredMethod(methodName);
+            log.setOperMethod(methodName);
+
+            //请求参数
+
+            Object[] args = joinPoint.getArgs();
+            Object[] arguments = new Object[args.length];
+            for (int i = 0; i <args.length ; i++) {
+                if(
+                        args[i] instanceof ServletRequest ||
+                                args[i] instanceof ServletResponse ||
+                                args[i] instanceof MultipartFile
+                ){
+                    continue;
+                }else {
+                    arguments[i] = args[i];
+                }
+            }
+
+            //排除敏感字段
+            String requiredParams = JSON.toJSONString(JSONObject.toJSONString(arguments));
+            log.setRequiredParam(requiredParams); //请求参数
+            // JSON.toJSONString(keys);/*返回结果*/
+            String token = request.getHeader("token");
+            if(token != null){
+                String object =  (String)redisTemplate.opsForValue().get(token);
+                LoginDto loginDto = (LoginDto) JSONArray.parseObject(object,LoginDto.class);
+                if(loginDto != null){
+                    log.setOperUserId(loginDto.getId());
+                    log.setOperUserName(loginDto.getName());
+                    log.setOperUri(request.getRequestURI().toString());
+                    log.setOperIp(request.getRemoteAddr());
+                    log.setCreatedAt(new Date());
+                    log.setOperVer(version);
+                }
+
+                logService.save(log);
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
+
+

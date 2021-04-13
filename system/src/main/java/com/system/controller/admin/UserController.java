@@ -2,6 +2,7 @@ package com.system.controller.admin;
 
 
 
+import com.server.config.OperLog;
 import com.server.dto.UserDto;
 import com.server.dto.PageDto;
 import com.server.dto.ResponseDto;
@@ -24,6 +25,7 @@ public class UserController {
     /**
      * 查询用户列表
      */
+    @OperLog(operModul = "用户管理-用户查询",operType = "查询" ,operDesc = "查询用户列表")
     @RequestMapping("/queryUserList")
     public ResponseDto queryUserList(@RequestBody PageDto pageDto){
 
@@ -37,6 +39,7 @@ public class UserController {
      * @param userDto
      * @return
      */
+    @OperLog(operModul = "用户管理-新增/修改大章",operType = "操作" ,operDesc = "用户新增功能")
     @PostMapping("/save")
     public ResponseDto save(@RequestBody UserDto userDto){
 
@@ -51,6 +54,7 @@ public class UserController {
         return new ResponseDto(true,200,null,userDto);
     }
 
+    @OperLog(operModul = "用户管理-删除用户",operType = "删除",operDesc = "用户删除功能")
     @DeleteMapping("/deleteById/{id}")
     public ResponseDto deleteById(@PathVariable("id") String id){
 
@@ -58,6 +62,7 @@ public class UserController {
         return new ResponseDto(true,200,null,null);
     }
 
+    @OperLog(operModul = "用户管理-重置密码",operType = "操作",operDesc = "用户重置密码功能")
     @Update("/resetPassword/{id}")
     public ResponseDto resetPassword(@PathVariable("id") String id){
 

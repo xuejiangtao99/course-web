@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.server.mapper.LogMapper">
+  <resultMap id="BaseResultMap" type="com.server.domain.Log">
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="exc_name" jdbcType="VARCHAR" property="excName" />
+    <result column="exc_message" jdbcType="VARCHAR" property="excMessage" />
+    <result column="oper_user_id" jdbcType="CHAR" property="operUserId" />
+    <result column="oper_user_name" jdbcType="VARCHAR" property="operUserName" />
+    <result column="oper_method" jdbcType="VARCHAR" property="operMethod" />
+    <result column="oper_uri" jdbcType="VARCHAR" property="operUri" />
+    <result column="oper_ip" jdbcType="VARCHAR" property="operIp" />
+    <result column="oper_ver" jdbcType="VARCHAR" property="operVer" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="oper_modul" jdbcType="VARCHAR" property="operModul" />
+    <result column="oper_type" jdbcType="VARCHAR" property="operType" />
+    <result column="oper_desc" jdbcType="VARCHAR" property="operDesc" />
+    <result column="required_method" jdbcType="VARCHAR" property="requiredMethod" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.server.domain.Log">
+    <result column="required_param" jdbcType="LONGVARCHAR" property="requiredParam" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, exc_name, exc_message, oper_user_id, oper_user_name, oper_method, oper_uri, oper_ip, 
+    oper_ver, created_at, oper_modul, oper_type, oper_desc, required_method
+  </sql>
+  <sql id="Blob_Column_List">
+    required_param
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.server.example.LogExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.server.example.LogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from log
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from log
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.server.example.LogExample">
+    delete from log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.server.domain.Log">
+    insert into log (id, exc_name, exc_message, 
+      oper_user_id, oper_user_name, oper_method, 
+      oper_uri, oper_ip, oper_ver, 
+      created_at, oper_modul, oper_type, 
+      oper_desc, required_method, required_param
+      )
+    values (#{id,jdbcType=CHAR}, #{excName,jdbcType=VARCHAR}, #{excMessage,jdbcType=VARCHAR}, 
+      #{operUserId,jdbcType=CHAR}, #{operUserName,jdbcType=VARCHAR}, #{operMethod,jdbcType=VARCHAR}, 
+      #{operUri,jdbcType=VARCHAR}, #{operIp,jdbcType=VARCHAR}, #{operVer,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{operModul,jdbcType=VARCHAR}, #{operType,jdbcType=VARCHAR}, 
+      #{operDesc,jdbcType=VARCHAR}, #{requiredMethod,jdbcType=VARCHAR}, #{requiredParam,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.server.domain.Log">
+    insert into log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="excName != null">
+        exc_name,
+      </if>
+      <if test="excMessage != null">
+        exc_message,
+      </if>
+      <if test="operUserId != null">
+        oper_user_id,
+      </if>
+      <if test="operUserName != null">
+        oper_user_name,
+      </if>
+      <if test="operMethod != null">
+        oper_method,
+      </if>
+      <if test="operUri != null">
+        oper_uri,
+      </if>
+      <if test="operIp != null">
+        oper_ip,
+      </if>
+      <if test="operVer != null">
+        oper_ver,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="operModul != null">
+        oper_modul,
+      </if>
+      <if test="operType != null">
+        oper_type,
+      </if>
+      <if test="operDesc != null">
+        oper_desc,
+      </if>
+      <if test="requiredMethod != null">
+        required_method,
+      </if>
+      <if test="requiredParam != null">
+        required_param,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="excName != null">
+        #{excName,jdbcType=VARCHAR},
+      </if>
+      <if test="excMessage != null">
+        #{excMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="operUserId != null">
+        #{operUserId,jdbcType=CHAR},
+      </if>
+      <if test="operUserName != null">
+        #{operUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="operMethod != null">
+        #{operMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="operUri != null">
+        #{operUri,jdbcType=VARCHAR},
+      </if>
+      <if test="operIp != null">
+        #{operIp,jdbcType=VARCHAR},
+      </if>
+      <if test="operVer != null">
+        #{operVer,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operModul != null">
+        #{operModul,jdbcType=VARCHAR},
+      </if>
+      <if test="operType != null">
+        #{operType,jdbcType=VARCHAR},
+      </if>
+      <if test="operDesc != null">
+        #{operDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="requiredMethod != null">
+        #{requiredMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="requiredParam != null">
+        #{requiredParam,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.server.example.LogExample" resultType="java.lang.Long">
+    select count(*) from log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=CHAR},
+      </if>
+      <if test="record.excName != null">
+        exc_name = #{record.excName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.excMessage != null">
+        exc_message = #{record.excMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operUserId != null">
+        oper_user_id = #{record.operUserId,jdbcType=CHAR},
+      </if>
+      <if test="record.operUserName != null">
+        oper_user_name = #{record.operUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operMethod != null">
+        oper_method = #{record.operMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operUri != null">
+        oper_uri = #{record.operUri,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operIp != null">
+        oper_ip = #{record.operIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operVer != null">
+        oper_ver = #{record.operVer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdAt != null">
+        created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.operModul != null">
+        oper_modul = #{record.operModul,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operType != null">
+        oper_type = #{record.operType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operDesc != null">
+        oper_desc = #{record.operDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requiredMethod != null">
+        required_method = #{record.requiredMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requiredParam != null">
+        required_param = #{record.requiredParam,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update log
+    set id = #{record.id,jdbcType=CHAR},
+      exc_name = #{record.excName,jdbcType=VARCHAR},
+      exc_message = #{record.excMessage,jdbcType=VARCHAR},
+      oper_user_id = #{record.operUserId,jdbcType=CHAR},
+      oper_user_name = #{record.operUserName,jdbcType=VARCHAR},
+      oper_method = #{record.operMethod,jdbcType=VARCHAR},
+      oper_uri = #{record.operUri,jdbcType=VARCHAR},
+      oper_ip = #{record.operIp,jdbcType=VARCHAR},
+      oper_ver = #{record.operVer,jdbcType=VARCHAR},
+      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      oper_modul = #{record.operModul,jdbcType=VARCHAR},
+      oper_type = #{record.operType,jdbcType=VARCHAR},
+      oper_desc = #{record.operDesc,jdbcType=VARCHAR},
+      required_method = #{record.requiredMethod,jdbcType=VARCHAR},
+      required_param = #{record.requiredParam,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update log
+    set id = #{record.id,jdbcType=CHAR},
+      exc_name = #{record.excName,jdbcType=VARCHAR},
+      exc_message = #{record.excMessage,jdbcType=VARCHAR},
+      oper_user_id = #{record.operUserId,jdbcType=CHAR},
+      oper_user_name = #{record.operUserName,jdbcType=VARCHAR},
+      oper_method = #{record.operMethod,jdbcType=VARCHAR},
+      oper_uri = #{record.operUri,jdbcType=VARCHAR},
+      oper_ip = #{record.operIp,jdbcType=VARCHAR},
+      oper_ver = #{record.operVer,jdbcType=VARCHAR},
+      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      oper_modul = #{record.operModul,jdbcType=VARCHAR},
+      oper_type = #{record.operType,jdbcType=VARCHAR},
+      oper_desc = #{record.operDesc,jdbcType=VARCHAR},
+      required_method = #{record.requiredMethod,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.server.domain.Log">
+    update log
+    <set>
+      <if test="excName != null">
+        exc_name = #{excName,jdbcType=VARCHAR},
+      </if>
+      <if test="excMessage != null">
+        exc_message = #{excMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="operUserId != null">
+        oper_user_id = #{operUserId,jdbcType=CHAR},
+      </if>
+      <if test="operUserName != null">
+        oper_user_name = #{operUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="operMethod != null">
+        oper_method = #{operMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="operUri != null">
+        oper_uri = #{operUri,jdbcType=VARCHAR},
+      </if>
+      <if test="operIp != null">
+        oper_ip = #{operIp,jdbcType=VARCHAR},
+      </if>
+      <if test="operVer != null">
+        oper_ver = #{operVer,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operModul != null">
+        oper_modul = #{operModul,jdbcType=VARCHAR},
+      </if>
+      <if test="operType != null">
+        oper_type = #{operType,jdbcType=VARCHAR},
+      </if>
+      <if test="operDesc != null">
+        oper_desc = #{operDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="requiredMethod != null">
+        required_method = #{requiredMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="requiredParam != null">
+        required_param = #{requiredParam,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.server.domain.Log">
+    update log
+    set exc_name = #{excName,jdbcType=VARCHAR},
+      exc_message = #{excMessage,jdbcType=VARCHAR},
+      oper_user_id = #{operUserId,jdbcType=CHAR},
+      oper_user_name = #{operUserName,jdbcType=VARCHAR},
+      oper_method = #{operMethod,jdbcType=VARCHAR},
+      oper_uri = #{operUri,jdbcType=VARCHAR},
+      oper_ip = #{operIp,jdbcType=VARCHAR},
+      oper_ver = #{operVer,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      oper_modul = #{operModul,jdbcType=VARCHAR},
+      oper_type = #{operType,jdbcType=VARCHAR},
+      oper_desc = #{operDesc,jdbcType=VARCHAR},
+      required_method = #{requiredMethod,jdbcType=VARCHAR},
+      required_param = #{requiredParam,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.server.domain.Log">
+    update log
+    set exc_name = #{excName,jdbcType=VARCHAR},
+      exc_message = #{excMessage,jdbcType=VARCHAR},
+      oper_user_id = #{operUserId,jdbcType=CHAR},
+      oper_user_name = #{operUserName,jdbcType=VARCHAR},
+      oper_method = #{operMethod,jdbcType=VARCHAR},
+      oper_uri = #{operUri,jdbcType=VARCHAR},
+      oper_ip = #{operIp,jdbcType=VARCHAR},
+      oper_ver = #{operVer,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      oper_modul = #{operModul,jdbcType=VARCHAR},
+      oper_type = #{operType,jdbcType=VARCHAR},
+      oper_desc = #{operDesc,jdbcType=VARCHAR},
+      required_method = #{requiredMethod,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

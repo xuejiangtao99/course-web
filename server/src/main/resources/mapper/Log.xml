@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.server.mapper.LogMapper">
+  <insert id="save" parameterType="com.server.domain.Log">
+    insert into log (`required_param`, exc_name,
+                        `exc_message`, `oper_user_id`, oper_user_name,
+                        `oper_method`, oper_uri, `oper_ip`, oper_ver,
+                        created_at, oper_modul, oper_type,oper_desc,required_method
+    )
+    values (#{requiredParam,jdbcType=VARCHAR}, #{excName,jdbcType=VARCHAR},
+            #{excMessage,jdbcType=VARCHAR}, #{operUserId,jdbcType=VARCHAR}, #{operUserName,jdbcType=VARCHAR}, #{operMethod,jdbcType=VARCHAR},
+            #{operUri,jdbcType=VARCHAR}, #{operIp,jdbcType=VARCHAR}, #{operVer,jdbcType=VARCHAR},#{createdAt,jdbcType=TIMESTAMP},#{operModul,jdbcType=VARCHAR},#{operType,jdbcType=VARCHAR},
+            #{operDesc,jdbcType=VARCHAR},#{requiredMethod,jdbcType=VARCHAR}
+           )
+  </insert>
+
+</mapper>

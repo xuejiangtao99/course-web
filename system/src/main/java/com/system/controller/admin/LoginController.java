@@ -48,7 +48,7 @@ public class LoginController {
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
         @PostMapping("/login")
-        public ResponseDto login(@RequestBody UserDto userDto, HttpServletRequest request){
+        public ResponseDto login(@RequestBody UserDto userDto){
 
           String imageCode =   (String)redisTemplate.opsForValue().get(userDto.getImageCodeToken());
           LOG.info("从Redis中取出来图片验证码：{}"+imageCode);
